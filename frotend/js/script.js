@@ -33,12 +33,14 @@ const deleteTask = async (id) => {
   loadTasks();
 };
 
-const updateTask = async ({ id, titulo, status }) => {
+const updateTask = async ({ titulo, status, id }) => {
+  console.log("executed");
   await fetch(`http://localhost:3333/tasks/${id}`, {
     method: "put",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ titulo, status }),
   });
+  console.log("finish");
 
   loadTasks();
 };
@@ -85,9 +87,9 @@ const createRow = (task) => {
   const tdActions = createElement("td");
 
   const select = createSelect(status);
-  select.addEventListener("change", ({ target }) => {
-    updateTask({ ...task, status: target.value });
-  });
+  select.addEventListener("change", ({ target }) =>
+    updateTask({ ...task, status: target.value })
+  );
 
   const editButton = createElement(
     "button",
@@ -101,6 +103,25 @@ const createRow = (task) => {
     "",
     ' <span class="material-symbols-outlined">delete</span>'
   );
+
+  const editForm = createElement("form");
+  const editInput = createElement("input");
+
+  editInput.value = titulo;
+
+  editForm.append(editInput);
+
+  editForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    updateTask({ id, titulo: editInput.value, status });
+  });
+
+  editButton.addEventListener("click", () => {
+    tdTitle.innerText = "";
+    tdTitle.append(editForm);
+  });
+
   deleteButton.classList.add("btn-action");
   deleteButton.addEventListener("click", () => {
     deleteTask(id);

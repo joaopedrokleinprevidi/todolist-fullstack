@@ -36,6 +36,7 @@ const updateTask = async (id, task) => {
   const query = "UPDATE tasks SET titulo = ?, status = ? WHERE id = ?";
 
   const [updatedTask] = await connection.execute(query, [titulo, status, id]);
+  return updatedTask;
 };
 module.exports = {
   getAll,
