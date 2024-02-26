@@ -4,13 +4,13 @@ const validateBody = (request, response, next) => {
   const { body } = request;
 
   //AQUI SE O CORPO DA NOSSA APLICAÇÃO NÃO TIVER TITULO, RETORNA ISTO.
-  if (body.title === undefined) {
+  if (body.titulo === undefined) {
     response
       .status(400)
       .json({ message: 'Erro: O campo "titulo" é obrigatório' });
   }
 
-  if (body.title === "") {
+  if (body.titulo === "") {
     return response
       .status(400)
       .json({ message: "Erro: titulo não pode ser vazio" });
@@ -22,6 +22,24 @@ const validateBody = (request, response, next) => {
   next();
 };
 
+const validateStatus = (request, response, next) => {
+  const { body } = request;
+
+  //AQUI SE O CORPO DA NOSSA APLICAÇÃO NÃO TIVER TITULO, RETORNA ISTO.
+  if (body.status === undefined) {
+    response
+      .status(400)
+      .json({ message: 'Erro: O campo "status" é obrigatório' });
+  }
+
+  if (body.status === "") {
+    return response
+      .status(400)
+      .json({ message: "Erro: status não pode ser vazio" });
+  }
+};
+
 module.exports = {
   validateBody,
+  validateStatus,
 };
